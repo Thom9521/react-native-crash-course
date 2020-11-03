@@ -5,12 +5,16 @@ import ListItem from './components/ListItem';
 import AddItem from './components/AddItem';
 
 const App = () => {
+  const getRandom =() => {
+  const random = Math.floor(Math.random() * 10000);
+  return random;
+  }
 
   const [items, setItems] = useState([
-    {id: 0, text: 'Milk'} ,
-    {id: 1, text: 'Eggs'},
-    {id: 2, text: 'Bread'},
-    {id: 3, text: 'Juice'},
+    {id: getRandom(), text: 'Milk'} ,
+    {id: getRandom(), text: 'Eggs'},
+    {id: getRandom(), text: 'Bread'},
+    {id: getRandom(), text: 'Juice'},
   ]);
 
   const deleteItem = (id) => {
@@ -20,12 +24,11 @@ const App = () => {
 }
 
   const addItem = (text) => {
-    const random = Math.floor(Math.random() * 10000);
     if(!text){
       Alert.alert('Error', 'Please enter an item', [{text: 'Ok'}]);
     } else {
       setItems(prevItems => {
-        return [{id: random, text}, ...prevItems]
+        return [{id: getRandom(), text}, ...prevItems]
       });
 
     }
@@ -37,7 +40,8 @@ const App = () => {
      <AddItem addItem ={addItem}/>
      <FlatList 
         data={items} 
-        renderItem={({item}) => <ListItem item={item} deleteItem={deleteItem}/>}/>
+        renderItem={({item}) => <ListItem item={item} deleteItem={deleteItem}/>}
+        keyExtractor = {item=> item.id.toString()}/>
     </View>
   )
 }
